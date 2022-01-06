@@ -1,0 +1,21 @@
+#BUILDER
+FROM golang:1.17 as builder
+
+WORKDIR /app
+
+COPY src/go.mod .
+RUN go mod download
+
+
+COPY src/*.go ./
+
+RUN go build -o /main
+
+# RUNNER
+FROM golang:1.17
+
+WORKDIR /
+
+COPY --from=builder /main /main
+
+ENTRYPOINT ["/main"]
