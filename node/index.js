@@ -11,13 +11,27 @@ const config = {
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
 
-const sql = `INSERT INTO people(name) values('Wesley')`
+const sql = `INSERT INTO people(name) values('Diogo Moreira')`
+const sql2 = `INSERT INTO people(name) values('Wesley Williams')`
 connection.query(sql)
+connection.query(sql2)
+
 connection.end()
 
 
 app.get('/', (req,res) => {
-    res.send('<h1>Full Cycle</h1>')
+    const cnQuery = mysql.createConnection(config)    
+    const cmdQuery = `SELECT * FROM people`
+    let _html = "<ul>"
+    cnQuery.query(cmdQuery, (err, result, fields) => {
+        if (err) throw err;        
+        result.map((data) => {
+            _html += `<li>${data.name}</li>`
+        })
+        _html += "</ul>"
+        res.send('<h1>Full Cycle</h1><br/>' + _html)
+    })
+    cnQuery.end()
 })
 
 app.listen(port, ()=> {
