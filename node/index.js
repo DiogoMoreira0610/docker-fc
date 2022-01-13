@@ -10,7 +10,8 @@ const config = {
 };
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
-
+//const sqlTable = `CREATE TABLE people(id int not null auto_increment, name varchar(255))`
+//connection.query(sqlTable)
 const sql = `INSERT INTO people(name) values('Diogo Moreira')`
 const sql2 = `INSERT INTO people(name) values('Wesley Williams')`
 connection.query(sql)
